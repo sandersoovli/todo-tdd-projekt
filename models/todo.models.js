@@ -7,8 +7,8 @@ const TodoSchema = new mongoose.Schema({
     },
     done:{
         type: Boolean,
-        required: true,
-    }  
+        required: false
+    }, 
 });
 
 const TodoModal = mongoose.model('Todo', TodoSchema);

@@ -3,13 +3,13 @@ const TodoModal = require('../../models/todo.models');
 const httpMocks = require('node-mocks-http');
 const newTodo = require('../mock-data/new-todo.json');
 
-TodoModal.create = jest.fn();
+jest.mock('../../models/todo.models');
 
 let req, res, next;
 beforeEach(() => {
     req = httpMocks.createRequest();
     res = httpMocks.createResponse();
-    next = null;
+    next = jest.fn();
 });
 
 describe('TodoController.createTodo', () =>{
@@ -26,14 +26,14 @@ describe('TodoController.createTodo', () =>{
         TodoController.createTodo(req, res, next);
         expect(TodoModal.create).toHaveBeenCalledWith(newTodo);
     })
-    it('should return 201 response code', () =>{
-        TodoController.createTodo(req, res, next)
+    it('should return 201 response code', async () =>{
+        await TodoController.createTodo(req, res, next)
         expect(res.statusCode).toBe(201);
         expect(res._isEndCalled()).toBeTruthy();
     })
-    it('should return json in response', () =>{
-        TodoModal.create.mockReturnValue(newTodo);
-        TodoController.createTodo(req, res, next);
+    it('should return json in response', async () =>{
+        await TodoModal.create.mockReturnValue(newTodo);
+        await TodoController.createTodo(req, res, next);
         expect(res._getJSONData()).toStrictEqual(newTodo);
     });
 });
