@@ -1,5 +1,7 @@
 const app = require('./app');
 
-app.listen(3015, () => {
-  console.log('Server us running');
+const PORT = 3015;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
